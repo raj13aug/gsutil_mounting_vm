@@ -17,8 +17,14 @@ resource "google_compute_address" "external-static-ip" {
   region = var.region
 }
 
+resource "random_string" "unique_suffix1" {
+  length  = 8
+  upper   = false
+  special = false
+}
+
 resource "google_storage_bucket" "artifact_bucket" {
-  name                        = "model-artifact-bucket"
+  name                        = "artifact-bucket-${random_string.unique_suffix1.result}"
   location                    = var.region
   force_destroy               = true
   uniform_bucket_level_access = true

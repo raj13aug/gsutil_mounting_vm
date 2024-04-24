@@ -61,7 +61,7 @@ resource "google_compute_instance" "demo" {
 
   service_account {
     email  = google_service_account.default.email
-    scopes = ["storage-rw"]
+    scopes = ["storage-rw", "compute-rw"]
   }
 
   metadata = {

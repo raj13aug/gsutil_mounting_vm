@@ -33,7 +33,7 @@ resource "google_storage_bucket" "artifact_bucket" {
 data "template_file" "client_userdata_script" {
   template = file("${path.root}/start_script.tpl")
   vars = {
-    bucket_name = google_storage_bucket.artifact_bucket.name
+    bucket_name = "artifact-bucket-${random_string.unique_suffix1.result}"
   }
   depends_on = [google_storage_bucket.artifact_bucket]
 }

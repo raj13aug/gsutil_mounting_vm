@@ -35,6 +35,7 @@ data "template_file" "client_userdata_script" {
   vars = {
     bucket_name = google_storage_bucket.artifact_bucket.name
   }
+  depends_on = [google_storage_bucket.artifact_bucket]
 }
 
 resource "google_service_account" "default" {

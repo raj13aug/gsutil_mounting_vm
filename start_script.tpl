@@ -7,7 +7,8 @@ sudo apt-get update -y
 sleep 20
 sudo apt-get install gcsfuse -y
 sleep 15
-mkdir -p /home/gcs-bucket  
-sudo chown -R 777 /home/gcs-bucket
-sudo gcsfuse -o allow_other -file-mode=777 -dir-mode=777 '{$bucket_name}' /home/gcs-bucket
+mkdir -p gcs-bucket  
+sudo chown -R 777 gcs-bucket
+sudo echo '{$bucket_name}' > testing.txt
+sudo gcsfuse -o allow_other -file-mode=777 -dir-mode=777 '{$bucket_name}' gcs-bucket
 sudo touch /home/gcs-bucket/cloudroot7.txt

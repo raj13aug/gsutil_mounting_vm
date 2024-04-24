@@ -1,10 +1,6 @@
 #!/bin/bash
-sudo mkfs.ext4 -m 0 -F -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/sdb
-sleep 5
-sudo mkdir -p /data
-sudo mount -o discard,defaults /dev/sdb /data
-sleep 5
-sudo chmod a+w /data
-sudo cp /etc/fstab /etc/fstab.backup
-sleep 5
-echo UUID=`sudo blkid -s UUID -o value /dev/sdb` /data ext4 discard,defaults,noatime,nofail 0 2 | sudo tee -a /etc/fstab
+export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s` echo "deb https://packages.cloud.google.com/apt $GCSFUSE_REPO main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo apt-get update -y && sudo apt-get install gcsfuse -y
+mkdir /home/gcp/gcs-bucket  // create mount path for our bucket
+sudo chown -R 777 /home/gcp/gcs-bucket
+sudo gcsfuse -o allow_other -file-mode=777 -dir-mode=777 model-artifact-bucket /home/gcp/gcs-bucket

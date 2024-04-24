@@ -17,6 +17,13 @@ resource "google_compute_address" "external-static-ip" {
   region = var.region
 }
 
+resource "google_storage_bucket" "artifact_bucket" {
+  name                        = "model-artifact-bucket"
+  location                    = var.region
+  force_destroy               = true
+  uniform_bucket_level_access = true
+}
+
 resource "google_compute_instance" "demo" {
   project = var.project_id
 
@@ -53,7 +60,7 @@ resource "google_compute_instance" "demo" {
   # We can install any tools we need for the demo in the startup script
   metadata_startup_script = file("${path.root}/start_script.sh")
 
-  depends_on = [google_compute_address.external-static-ip]
+  depends_on = [google_compute_address.external-static-ip, google_storage_bucket.artifact_bucket]
 
 }
 

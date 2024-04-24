@@ -24,6 +24,13 @@ resource "google_storage_bucket" "artifact_bucket" {
   uniform_bucket_level_access = true
 }
 
+
+resource "google_service_account" "default" {
+  project      = var.project_id
+  account_id   = "service-account-id"
+  display_name = "Service Account"
+}
+
 resource "google_compute_instance" "demo" {
   project = var.project_id
 
@@ -52,6 +59,10 @@ resource "google_compute_instance" "demo" {
     }
   }
 
+  service_account {
+    email  = google_service_account.default.email
+    scopes = ["storage-rw"]
+  }
 
   metadata = {
     sshKeys = "ubuntu:${tls_private_key.ssh.public_key_openssh}"

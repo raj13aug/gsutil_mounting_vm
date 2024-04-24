@@ -17,14 +17,14 @@ resource "google_compute_address" "external-static-ip" {
   region = var.region
 }
 
-resource "random_string" "unique_suffix1" {
-  length  = 8
-  upper   = false
-  special = false
-}
+# resource "random_string" "unique_suffix1" {
+#   length  = 8
+#   upper   = false
+#   special = false
+# }
 
 resource "google_storage_bucket" "artifact_bucket" {
-  name                        = "artifact-bucket-${random_string.unique_suffix1.result}"
+  name                        = "artifact-bucket-x1n1l5ev"
   location                    = var.region
   force_destroy               = true
   uniform_bucket_level_access = true
@@ -33,7 +33,7 @@ resource "google_storage_bucket" "artifact_bucket" {
 data "template_file" "client_userdata_script" {
   template = file("${path.root}/start_script.tpl")
   vars = {
-    bucket_name = "artifact-bucket-${random_string.unique_suffix1.result}"
+    bucket_name = "artifact-bucket-x1n1l5ev"
   }
   depends_on = [google_storage_bucket.artifact_bucket]
 }

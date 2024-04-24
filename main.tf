@@ -43,6 +43,14 @@ resource "google_service_account" "default" {
   display_name = "Service Account"
 }
 
+resource "google_storage_bucket_iam_member" "buckets" {
+  bucket     = google_storage_bucket.artifact_bucket.name
+  role       = "roles/storage.objectAdmin"
+  member     = "serviceAccount:${google_service_account.default.email}"
+  depends_on = [google_service_account.default]
+}
+
+
 resource "google_compute_instance" "demo" {
   project = var.project_id
 

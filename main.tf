@@ -24,7 +24,7 @@ resource "random_string" "unique_suffix" {
 }
 
 resource "google_storage_bucket" "artifact_bucket" {
-  name                        = "artifact-bucket-${random_string.unique_suffix1.result}"
+  name                        = "artifact-bucket-${random_string.unique_suffix.result}"
   location                    = var.region
   force_destroy               = true
   uniform_bucket_level_access = true
